@@ -9,3 +9,129 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Festival {
+  idFestival   Int      @id @default(autoincrement())
+  NomFestival  String
+  DateDebut    DateTime
+  DateFin      DateTime
+  Ville        String?
+
+  ZonesBenevole ZoneBenevole[]
+  Employers     Employer[]
+}
+
+// Association model
+model Association {
+  idAssociation  Int       @id @default(autoincrement())
+  NomAssociation String
+  Mail           String?
+
+  // Relations
+  Benevoles      Benevole[]
+}
+
+// ZoneBenevole model
+model ZoneBenevole {
+  idZoneBenevole   Int    @id @default(autoincrement())
+  nomZoneBenevole  String
+  maxBenevole      String?
+  minBenevole      String?
+  Festival         Festival  @relation(fields: [idFestival], references: [idFestival])
+  idFestival       Int
+
+  // Relations
+  Jeux             Jeux[]
+  Inscriptions     Inscription[]
+  Benevoles        Benevole[]
+}
+
+// Poste model
+model Poste {
+  idPoste       Int       @id @default(autoincrement())
+  nomPoste      String
+  description   String
+  maxBenevole   String
+  minBenevole   String
+
+  // Relations
+  Benevoles     Benevole[]
+  Employers     Employer[]
+  EtreReferents EtreReferent[]
+  Inscriptions  Inscription[]
+}
+
+// Benevole model
+model Benevole {
+  idBenevole            Int          @id @default(autoincrement())
+  Nom                   String
+  Prenom                String
+  Email                 String
+  Password              String
+  Role                  String
+  TailleT_Shirt         String
+  Regime                String
+  StatutHebergement     String
+  NombreEditionPrecedente Int
+  Adresse               String?
+  Ville                 String?
+  Code_Postal           String?
+  Telephone             String?
+  JeuPrefere            String?
+  idAssociation         Int
+  Association           Association  @relation(fields: [idAssociation], references: [idAssociation])
+
+  // Relations
+  ZoneBenevole          ZoneBenevole[]
+  Inscriptions          Inscription[]
+  EtreReferents         EtreReferent[]
+  Postes                Poste[]
+}
+
+// Jeux model
+model Jeux {
+  idJeux                Int       @id @default(autoincrement())
+  NomJeu                String
+  Editeur               String
+  TypePublic            String
+  Animation             Boolean
+  Recu                  Boolean
+  LienNotice            String
+  LienVideoExplicative  String
+  idZoneBenevole        Int
+  ZoneBenevole          ZoneBenevole @relation(fields: [idZoneBenevole], references: [idZoneBenevole])
+  }
+
+// Inscription model
+model Inscription {
+  idBenevole     Int
+  idZoneBenevole Int     
+  idPoste        Int
+  Creneau        DateTime
+  Jour           DateTime
+  Benevole       Benevole    @relation(fields: [idBenevole], references: [idBenevole])
+  ZoneBenevole   ZoneBenevole @relation(fields: [idZoneBenevole], references: [idZoneBenevole])
+  Poste          Poste       @relation(fields: [idPoste], references: [idPoste])
+
+  @@id([idBenevole, idZoneBenevole, idPoste, Creneau, Jour])
+}
+
+// EtreReferent model
+model EtreReferent {
+  idBenevole     Int
+  idPoste        Int
+  Benevole       Benevole @relation(fields: [idBenevole], references: [idBenevole])
+  Poste          Poste    @relation(fields: [idPoste], references: [idPoste])
+
+  @@id([idBenevole, idPoste])
+}
+
+// Employer model
+model Employer {
+  idFestival    Int
+  idPoste       Int
+  Festival      Festival @relation(fields: [idFestival], references: [idFestival])
+  Poste         Poste    @relation(fields: [idPoste], references: [idPoste])
+
+  @@id([idFestival, idPoste])
+}
