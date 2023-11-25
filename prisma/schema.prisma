@@ -64,7 +64,7 @@ model Benevole {
   idBenevole            Int          @id @default(autoincrement())
   Nom                   String
   Prenom                String
-  Email                 String
+  Email                 String       @unique
   Password              String
   Role                  String
   TailletTShirt         String
@@ -96,8 +96,8 @@ model Jeux {
   Recu                  Boolean
   LienNotice            String
   LienVideoExplicative  String
-  idZoneBenevole        Int
-  ZoneBenevole          ZoneBenevole @relation(fields: [idZoneBenevole], references: [idZoneBenevole])
+  idZoneBenevole        Int?
+  ZoneBenevole          ZoneBenevole? @relation(fields: [idZoneBenevole], references: [idZoneBenevole])
   }
 
 // Inscription model
@@ -108,7 +108,7 @@ model Inscription {
   Creneau        String
   Jour           DateTime
   Benevole       Benevole    @relation(fields: [idBenevole], references: [idBenevole])
-  ZoneBenevole   ZoneBenevole @relation(fields: [idZoneBenevole], references: [idZoneBenevole])
+  ZoneBenevole   ZoneBenevole? @relation(fields: [idZoneBenevole], references: [idZoneBenevole])
   Poste          Poste       @relation(fields: [idPoste], references: [idPoste])
 
   @@id([idBenevole, idPoste, Creneau, Jour])
