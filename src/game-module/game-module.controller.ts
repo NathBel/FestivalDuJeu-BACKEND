@@ -1,6 +1,7 @@
-import { Controller, Post, Get, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Post, Get, Put, Delete, Body, Param } from '@nestjs/common';
 import { CreateGameDto } from './dto/createGameDto';
 import { GameModuleService } from './game-module.service';
+import { create } from 'domain';
 
 @Controller('game-module')
 export class GameModuleController {
@@ -14,22 +15,22 @@ export class GameModuleController {
 
     @Get()
     getGamesList() {
-        return 'games list';
+        return this.gameModuleService.getGamesList();
     }
 
-    @Get('/game/:id')
-    getGame() {
-        return 'game';
+    @Get('/:id')
+    getGame(@Param('id') id: string) {
+        return this.gameModuleService.getGame(id);
     }
 
-    @Put('/game/:id')
-    updateGame() {
-        return 'update game';
+    @Put('/:id')
+    updateGame(@Param('id') id: string, @Body() createGameDto: CreateGameDto) {
+        return this.gameModuleService.updateGame(id, createGameDto);
     }
 
-    @Delete('/game/:id')
-    deleteGame() {
-        return 'delete game';
+    @Delete('/:id')
+    deleteGame(@Param('id') id: string) {
+        return this.gameModuleService.deleteGame(id);
     }
 
 }
