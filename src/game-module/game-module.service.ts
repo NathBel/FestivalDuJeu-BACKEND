@@ -1,12 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { CreateGameDto } from './dto/createGameDto';
 import { PrismaModuleService } from '../prisma-module/prisma-module.service';
+import { UpdateGameDto } from './dto/updateGameDto';
 
 @Injectable()
 export class GameModuleService {
 
     constructor(private readonly PrismaModuleService: PrismaModuleService){}
     async createGame(createGameDto: CreateGameDto) {
+
+        // TODO : Check if user is allowed to create a game (=user is admin)
+        if(false) { 
+            throw new ForbiddenException(`You are not allowed to create a game`);
+        }
 
         //Recuperation des données du jeu à créer
         const {idJeux, NomJeu, Editeur, TypePublic, Animation, Recu, LienNotice, LienVideoExplicative} = createGameDto;
@@ -33,43 +39,76 @@ export class GameModuleService {
         return await this.PrismaModuleService.jeux.findMany();
     }
 
-    async getGame(id: string) {
+    async getGame(id: number) {
+
+        const game = await this.PrismaModuleService.jeux.findUnique({
+            where: {
+                idJeux: id
+            }
+        });
+
+        if(!game) {
+            throw new NotFoundException(`Game with id ${id} not found`);
+        }
+
+        
         return await this.PrismaModuleService.jeux.findUnique({
             where: {
-                idJeux: Number(id)
+                idJeux: id
             }
         });
     }
 
-    async updateGame(id: string, createGameDto: CreateGameDto) {
+    async updateGame(id: number, updateGameDto: UpdateGameDto) {
 
-        //Recuperation des données du jeu à modifier
-        const {idJeux, NomJeu, Editeur, TypePublic, Animation, Recu, LienNotice, LienVideoExplicative} = createGameDto;
+        const game = await this.PrismaModuleService.jeux.findUnique({
+            where: {
+                idJeux: id
+            }
+        });
+
+        if(!game) {
+            throw new NotFoundException(`Game with id ${id} not found`);
+        }
+
+        // TODO : Check if user is allowed to update this game (=user is admin)
+        if(false) { 
+            throw new ForbiddenException(`You are not allowed to update this game`);
+        }
 
         //Modification du jeu
         await this.PrismaModuleService.jeux.update({
             where: {
-                idJeux: Number(id)
+                idJeux: id
             },
             data: {
-                idJeux,
-                NomJeu,
-                Editeur,
-                TypePublic,
-                Animation,
-                Recu,
-                LienNotice,
-                LienVideoExplicative,
+                ...updateGameDto
             }
         });
 
         return {data : "Game successfully updated"};
     }
 
-    async deleteGame(id: string) {
+    async deleteGame(id: number) {
+
+        const game = await this.PrismaModuleService.jeux.findUnique({
+            where: {
+                idJeux: id
+            }
+        });
+
+        if(!game) {
+            throw new NotFoundException(`Game with id ${id} not found`);
+        }
+
+        // TODO : Check if user is allowed to update this game (=user is admin)
+        if(false) { 
+            throw new ForbiddenException(`You are not allowed to update this game`);
+        }
+        
         await this.PrismaModuleService.jeux.delete({
             where: {
-                idJeux: Number(id)
+                idJeux: id
             }
         });
         return {data : "Game successfully deleted"};
