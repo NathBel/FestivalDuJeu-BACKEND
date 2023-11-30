@@ -76,8 +76,8 @@ model Benevole {
   CodePostal            String?
   Telephone             String?
   JeuPrefere            String?
-  idAssociation         Int
-  Association           Association  @relation(fields: [idAssociation], references: [idAssociation])
+  idAssociation         Int?
+  Association           Association?  @relation(fields: [idAssociation], references: [idAssociation])
 
   // Relations
   ZoneBenevole          ZoneBenevole[]
