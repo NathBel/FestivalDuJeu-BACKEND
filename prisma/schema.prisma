@@ -24,7 +24,7 @@ model Festival {
 // Association model
 model Association {
   idAssociation  Int       @id @default(autoincrement())
-  NomAssociation String
+  NomAssociation String    @unique
   Mail           String?
 
   // Relations

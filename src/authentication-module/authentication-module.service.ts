@@ -211,6 +211,32 @@ export class AuthenticationModuleService {
         }
     }
 
+    async updateRole(userId: number, updateRoleDto: any) {
+
+        const { Role } = updateRoleDto;
+
+        //Vérifier si l'utilisateur existe
+        const user = await this.prismaService.benevole.findUnique({
+            where: {
+                idBenevole: userId
+            }
+        });
+
+        if (!user) {
+            throw new NotFoundException("Utilisateur non trouvé");
+        }
+
+        //Mettre à jour l'utilisateur
+        await this.prismaService.benevole.update({
+            where: {
+                idBenevole: userId
+            },
+            data: {
+                Role: Role
+            }
+        });
+    }
+
 
     async deleteAccount(userId: number, deleteAccountDto: any) {
         const { Password } = deleteAccountDto;

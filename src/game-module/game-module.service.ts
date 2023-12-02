@@ -7,6 +7,7 @@ import { UpdateGameDto } from './dto/updateGameDto';
 export class GameModuleService {
 
     constructor(private readonly PrismaModuleService: PrismaModuleService){}
+    
     async createGame(createGameDto: CreateGameDto) {
 
         // TODO : Check if user is allowed to create a game (=user is admin)
