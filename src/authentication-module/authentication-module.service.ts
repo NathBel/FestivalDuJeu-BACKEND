@@ -2,14 +2,20 @@ import { Injectable, ConflictException, Post, NotFoundException, UnauthorizedExc
 import { PrismaModuleService } from 'src/prisma-module/prisma-module.service';
 import { SignupDto } from './dto/signupDto';
 import { SigninDto } from './dto/signinDto';
+import { UpdateDto } from './dto/updateDto';
+import { ResetPasswordDemandDto } from './dto/resetPasswordDto';
+import { MailerService } from 'src/mailer/mailer.service';
 import * as bcrypt from 'bcrypt';
+import * as speakeasy from 'speakeasy';
 import { JwtService } from '@nestjs/jwt/dist';
 import { ConfigService } from '@nestjs/config';
+import { ResetPasswordConfirmationDto } from './dto/resetPasswordConfirmationDto';
 
 @Injectable()
 export class AuthenticationModuleService {
 
     constructor(private readonly prismaService: PrismaModuleService,
+                private readonly MailerService: MailerService,
                 private readonly JwtService: JwtService,
                 private readonly configService: ConfigService) { }
 
@@ -53,7 +59,8 @@ export class AuthenticationModuleService {
         });
 
         //Envoi d'un email de confirmation
-        
+        await this.MailerService.sendSignupConfirmation(Email); 
+
         //Retourner un message de succès
         return {
             data: "Inscription réussie"
@@ -61,7 +68,6 @@ export class AuthenticationModuleService {
         
     }
 
-    @Post("signin")
     async signin(signinDto: SigninDto) {
         //Vérifier si l'utilisateur existe
         const user = await this.prismaService.benevole.findUnique({
@@ -86,6 +92,156 @@ export class AuthenticationModuleService {
         //Retourner le token
         return {
             token: token
+        }
+    }
+
+    async resetPasswordDemand(resetPasswordDemandDto: ResetPasswordDemandDto) {
+
+        const { Email } = resetPasswordDemandDto;
+
+        //Vérifier si l'utilisateur existe
+        const user = await this.prismaService.benevole.findUnique({
+            where: {
+                Email: Email
+            }
+        });
+
+        if (!user) {
+            throw new NotFoundException("Utilisateur non trouvé");
+        }
+
+        //Generer un code de réinitialisation
+        const secretCode = speakeasy.totp({
+            secret: this.configService.get('OTP_CODE'),
+            digits: 6,
+            step: 15 * 60,
+            encoding: 'base32'
+        });
+
+        //Envoi d'un email de réinitialisation
+         const url = "http://localhost:3000/authentication-module/reset-password";
+
+
+        //Retourner un message de succès
+        return {
+            data: "Email de réinitialisation de mot de passe envoyé"
+        }
+    }
+
+    async resetPasswordConfirmation(resetPasswordConfirmationDto: ResetPasswordConfirmationDto) {
+        const { Email, Password, code } = resetPasswordConfirmationDto;
+
+        const user = await this.prismaService.benevole.findUnique({
+            where: {
+                Email: Email
+            }
+        });
+
+        if (!user) {
+            throw new NotFoundException("Utilisateur non trouvé");
+        }
+
+        const match = speakeasy.totp.verify({
+            secret: this.configService.get('OTP_CODE'),
+            token: code,
+            digits: 6,
+            step: 15 * 60,
+            encoding: 'base32'
+        });
+
+        if (!match) {
+            throw new UnauthorizedException("Code incorrect");
+        }
+
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(Password, salt);
+
+        await this.prismaService.benevole.update({
+            where: {
+                Email: Email
+            },
+            data: {
+                Password: hashedPassword
+            }
+        });
+
+        return {
+            data: "Mot de passe réinitialisé avec succès"
+        }
+    }
+
+    async updateAccount(userId: number, updateDto: UpdateDto) {
+        const { Nom, Prenom, Email, TailletTShirt, Regime, StatutHebergement, NombreEditionPrecedente, Adresse, Ville, CodePostal, Telephone, JeuPrefere} = updateDto;
+
+        //Vérifier si l'utilisateur existe
+        const user = await this.prismaService.benevole.findUnique({
+            where: {
+                idBenevole: userId
+            }
+        });
+
+        if (!user) {
+            throw new NotFoundException("Utilisateur non trouvé");
+        }
+
+        //Mettre à jour l'utilisateur
+        await this.prismaService.benevole.update({
+            where: {
+                idBenevole: userId
+            },
+            data: {
+                Nom: Nom,
+                Prenom: Prenom,
+                Email: Email,
+                TailletTShirt: TailletTShirt,
+                Regime: Regime,
+                StatutHebergement: StatutHebergement,
+                NombreEditionPrecedente: NombreEditionPrecedente,
+                Adresse: Adresse,
+                Ville: Ville,
+                CodePostal: CodePostal,
+                Telephone: Telephone,
+                JeuPrefere: JeuPrefere,
+            }
+        });
+
+        //Retourner un message de succès
+        return {
+            data: "Compte mis à jour avec succès"
+        }
+    }
+
+
+    async deleteAccount(userId: number, deleteAccountDto: any) {
+        const { Password } = deleteAccountDto;
+
+        //Vérifier si l'utilisateur existe
+        const user = await this.prismaService.benevole.findUnique({
+            where: {
+                idBenevole: userId
+            }
+        });
+
+        if (!user) {
+            throw new NotFoundException("Utilisateur non trouvé");
+        }
+
+        //Comparer le mot de passe
+        const isMatch = await bcrypt.compare(Password, user.Password);
+        if (!isMatch) {
+            throw new UnauthorizedException("Mot de passe incorrect");
+        }
+
+        //Supprimer l'utilisateur
+        await this.prismaService.benevole.delete({
+            where: {
+                idBenevole: userId
+            }
+        });
+
+        //Retourner un message de succès
+        return {
+            data: "Compte supprimé avec succès"
         }
     }
 }
