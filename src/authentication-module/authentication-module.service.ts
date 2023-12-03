@@ -45,7 +45,6 @@ export class AuthenticationModuleService {
                 Prenom: Prenom,
                 Email: Email,
                 Password: hashedPassword,
-                Role: Role,
                 TailletTShirt: TailletTShirt,
                 Regime: Regime,
                 StatutHebergement: StatutHebergement,

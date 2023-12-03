@@ -6,10 +6,11 @@ import { AuthenticationModuleModule } from './authentication-module/authenticati
 import { MailerModule } from './mailer/mailer.module';
 import { AssociationModuleModule } from './association-module/association-module.module';
 import { FestivalModuleModule } from './festival-module/festival-module.module';
+import { VolunteerAreaModuleModule } from './volunteer-area-module/volunteer-area-module.module';
 
 
 
 @Module({
-  imports: [ConfigModule.forRoot({isGlobal : true}) ,GameModuleModule, PrismaModuleModule, AuthenticationModuleModule, MailerModule, AssociationModuleModule, FestivalModuleModule],
+  imports: [ConfigModule.forRoot({isGlobal : true}) ,GameModuleModule, PrismaModuleModule, AuthenticationModuleModule, MailerModule, AssociationModuleModule, FestivalModuleModule, VolunteerAreaModuleModule],
 })
 export class AppModule {}
