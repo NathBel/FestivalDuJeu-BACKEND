@@ -19,7 +19,7 @@ export class GameModuleController {
     }
 
     @Get('/:id')
-    getGame(@Param('id', ParseIntPipe) idGame: number) {
+    getGame(@Param('id', ParseIntPipe) idGame: number) {        
         return this.gameModuleService.getGame(idGame);
     }
 

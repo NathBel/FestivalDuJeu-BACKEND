@@ -10,6 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+    User
+    Admin
+    Referent
+}
+
+
 model Festival {
   idFestival   Int      @id @default(autoincrement())
   NomFestival  String
@@ -66,7 +73,7 @@ model Benevole {
   Prenom                String
   Email                 String       @unique
   Password              String
-  Role                  String
+  Role                  Role        @default(User)
   TailletTShirt         String
   Regime                String
   StatutHebergement     String
@@ -107,6 +114,7 @@ model Inscription {
   idPoste        Int
   Creneau        String
   Jour           DateTime
+  isPresent      Boolean
   Benevole       Benevole    @relation(fields: [idBenevole], references: [idBenevole])
   ZoneBenevole   ZoneBenevole? @relation(fields: [idZoneBenevole], references: [idZoneBenevole])
   Poste          Poste       @relation(fields: [idPoste], references: [idPoste])
@@ -133,3 +141,4 @@ model Employer {
 
   @@id([idFestival, idPoste])
 }
+

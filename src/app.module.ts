@@ -5,10 +5,11 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthenticationModuleModule } from './authentication-module/authentication-module.module';
 import { MailerModule } from './mailer/mailer.module';
 import { AssociationModuleModule } from './association-module/association-module.module';
+import { FestivalModuleModule } from './festival-module/festival-module.module';
 
 
 
 @Module({
-  imports: [ConfigModule.forRoot({isGlobal : true}) ,GameModuleModule, PrismaModuleModule, AuthenticationModuleModule, MailerModule, AssociationModuleModule],
+  imports: [ConfigModule.forRoot({isGlobal : true}) ,GameModuleModule, PrismaModuleModule, AuthenticationModuleModule, MailerModule, AssociationModuleModule, FestivalModuleModule],
 })
 export class AppModule {}
