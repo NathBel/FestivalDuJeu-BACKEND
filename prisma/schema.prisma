@@ -57,6 +57,7 @@ model Poste {
   idPoste       Int       @id @default(autoincrement())
   nomPoste      String
   description   String
+  capacite      Int
   
 
   // Relations
@@ -114,12 +115,12 @@ model Inscription {
   idPoste        Int
   Creneau        String
   Jour           DateTime
-  isPresent      Boolean
+  isPresent      Boolean   @default(false)
   Benevole       Benevole    @relation(fields: [idBenevole], references: [idBenevole])
   ZoneBenevole   ZoneBenevole? @relation(fields: [idZoneBenevole], references: [idZoneBenevole])
   Poste          Poste       @relation(fields: [idPoste], references: [idPoste])
 
-  @@id([idBenevole, idPoste, Creneau, Jour])
+  @@id([idBenevole, idPoste, idZoneBenevole, Creneau, Jour])
 }
 
 // EtreReferent model
