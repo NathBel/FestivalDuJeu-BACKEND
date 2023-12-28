@@ -34,7 +34,10 @@ export class InscriptionModuleService {
         const inscription = await this.prismaService.inscription.findFirst({
             where: {
                 idBenevole: createInscriptionDto.idBenevole,
-                idPoste: createInscriptionDto.idPoste
+                idPoste: createInscriptionDto.idPoste,
+                idZoneBenevole: createInscriptionDto.idZoneBenevole,
+                Creneau: createInscriptionDto.Creneau,
+                Jour: createInscriptionDto.Jour
             }
         });
 
@@ -71,6 +74,15 @@ export class InscriptionModuleService {
         return this.prismaService.inscription.findMany({
             where: {
                 idPoste: idPosition
+            }
+        });
+    }
+
+    async getInscriptionByPositionAndVolunteerId(idPosition: number, idVolunteer: number){
+        return this.prismaService.inscription.findMany({
+            where: {
+                idPoste: idPosition,
+                idBenevole: idVolunteer
             }
         });
     }
