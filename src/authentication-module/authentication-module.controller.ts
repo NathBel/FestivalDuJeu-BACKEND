@@ -1,4 +1,4 @@
-import { UseGuards, Req, Controller, Post, Body, Put, Delete, ForbiddenException } from '@nestjs/common';
+import { UseGuards, Req, Controller, Post, Body, Put, Delete, Get, ForbiddenException } from '@nestjs/common';
 import { SignupDto } from './dto/signupDto';
 import { SigninDto } from './dto/signinDto';
 import { UpdateRoleDto } from './dto/updateRoleDto';
@@ -54,12 +54,16 @@ export class AuthenticationModuleController {
     }
 
 
-
     @UseGuards(AuthGuard("jwt"))
     @Delete("delete-account")
     deleteAccount(@Req() request: Request, @Body() deleteAccountDto: DeleteAccountDto) {
         const userId = request.user["idBenevole"];
         return this.authService.deleteAccount(userId, deleteAccountDto);
+    }
+
+    @Get()
+    getAllUser() {
+        return this.authService.getAllUsers();
     }
 
 }

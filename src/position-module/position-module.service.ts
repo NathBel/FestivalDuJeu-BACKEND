@@ -17,6 +17,7 @@ export class PositionModuleService {
         return this.prismaService.poste.findMany();
     }
 
+
     async getPositionById(idPosition: number){
         //Check if position exists
         const position = await this.prismaService.poste.findUnique({

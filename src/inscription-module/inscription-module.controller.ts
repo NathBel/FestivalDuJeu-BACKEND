@@ -30,6 +30,11 @@ export class InscriptionModuleController {
         return this.inscriptionService.getInscriptionByPositionId(idPosition);
     }
 
+    @Get('position/:idPostion/volunteer/:idVolunteer')
+    async getInscriptionByPositionAndVolunteerId(@Param('idPostion', ParseIntPipe) idPosition: number, @Param('idVolunteer', ParseIntPipe) idVolunteer: number){
+        return this.inscriptionService.getInscriptionByPositionAndVolunteerId(idPosition, idVolunteer);
+    }
+
     @Get('zone/:id')
     async getInscriptionByZoneId(@Param('id', ParseIntPipe) idZone: number){
         return this.inscriptionService.getInscriptionByZoneId(idZone);

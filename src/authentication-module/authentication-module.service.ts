@@ -58,7 +58,7 @@ export class AuthenticationModuleService {
         });
 
         //Envoi d'un email de confirmation
-        await this.MailerService.sendSignupConfirmation(Email); 
+        //await this.MailerService.sendSignupConfirmation(Email); 
 
         //Retourner un message de succès
         return {
@@ -268,5 +268,9 @@ export class AuthenticationModuleService {
         return {
             data: "Compte supprimé avec succès"
         }
+    }
+
+    async getAllUsers() {
+        return this.prismaService.benevole.findMany();
     }
 }
