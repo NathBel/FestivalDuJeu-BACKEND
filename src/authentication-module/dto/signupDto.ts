@@ -1,13 +1,16 @@
-import { IsString, IsInt, IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class SignupDto {
 
-
     @IsNotEmpty()
+    @IsString()
+    readonly Pseudo: string;
+
+    @IsOptional()
     @IsString()
     readonly Nom: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     readonly Prenom: string;
 
@@ -23,19 +26,19 @@ export class SignupDto {
     @IsString()
     readonly Role: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     readonly TailletTShirt: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     readonly Regime: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     readonly StatutHebergement: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt()
     readonly NombreEditionPrecedente: number;
 

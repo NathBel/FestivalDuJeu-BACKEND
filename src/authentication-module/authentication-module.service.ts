@@ -1,15 +1,15 @@
-import { Injectable, ConflictException, Post, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { PrismaModuleService } from 'src/prisma-module/prisma-module.service';
-import { SignupDto } from './dto/signupDto';
-import { SigninDto } from './dto/signinDto';
-import { UpdateDto } from './dto/updateDto';
-import { ResetPasswordDemandDto } from './dto/resetPasswordDto';
-import { MailerService } from 'src/mailer/mailer.service';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt/dist';
 import * as bcrypt from 'bcrypt';
 import * as speakeasy from 'speakeasy';
-import { JwtService } from '@nestjs/jwt/dist';
-import { ConfigService } from '@nestjs/config';
+import { MailerService } from 'src/mailer/mailer.service';
+import { PrismaModuleService } from 'src/prisma-module/prisma-module.service';
 import { ResetPasswordConfirmationDto } from './dto/resetPasswordConfirmationDto';
+import { ResetPasswordDemandDto } from './dto/resetPasswordDto';
+import { SigninDto } from './dto/signinDto';
+import { SignupDto } from './dto/signupDto';
+import { UpdateDto } from './dto/updateDto';
 
 @Injectable()
 export class AuthenticationModuleService {
@@ -21,12 +21,12 @@ export class AuthenticationModuleService {
 
     async signup(signupDto: SignupDto) {
 
-        const { Nom, Prenom, Email, Password, Role, TailletTShirt, Regime, StatutHebergement, NombreEditionPrecedente, Adresse, Ville, CodePostal, Telephone, JeuPrefere} = signupDto;
+        const { Pseudo, Nom, Prenom, Email, Password, Role, TailletTShirt, Regime, StatutHebergement, NombreEditionPrecedente, Adresse, Ville, CodePostal, Telephone, JeuPrefere} = signupDto;
 
         //Vérifier si l'email existe déjà
         const user = await this.prismaService.benevole.findUnique({
             where: {
-                Email: Email
+                Email: Email,
             }
         });
 
@@ -41,6 +41,7 @@ export class AuthenticationModuleService {
         //Créer un nouvel utilisateur
         await this.prismaService.benevole.create({
             data: {
+                Pseudo: Pseudo,
                 Nom: Nom,
                 Prenom: Prenom,
                 Email: Email,
@@ -58,7 +59,7 @@ export class AuthenticationModuleService {
         });
 
         //Envoi d'un email de confirmation
-        //await this.MailerService.sendSignupConfirmation(Email); 
+        //await this.MailerService.sendSignupConfirmation(Email);
 
         //Retourner un message de succès
         return {
@@ -170,7 +171,7 @@ export class AuthenticationModuleService {
     }
 
     async updateAccount(userId: number, updateDto: UpdateDto) {
-        const { Nom, Prenom, Email, TailletTShirt, Regime, StatutHebergement, NombreEditionPrecedente, Adresse, Ville, CodePostal, Telephone, JeuPrefere} = updateDto;
+        const { Pseudo, Nom, Prenom, Email, TailletTShirt, Regime, StatutHebergement, NombreEditionPrecedente, Adresse, Ville, CodePostal, Telephone, JeuPrefere} = updateDto;
 
         //Vérifier si l'utilisateur existe
         const user = await this.prismaService.benevole.findUnique({
@@ -189,6 +190,7 @@ export class AuthenticationModuleService {
                 idBenevole: userId
             },
             data: {
+                Pseudo: Pseudo,
                 Nom: Nom,
                 Prenom: Prenom,
                 Email: Email,

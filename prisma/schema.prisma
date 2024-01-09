@@ -71,6 +71,7 @@ model Poste {
 // Benevole model
 model Benevole {
   idBenevole            Int          @id @default(autoincrement())
+  Pseudo                String       @unique
   Nom                   String
   Prenom                String
   Email                 String       @unique

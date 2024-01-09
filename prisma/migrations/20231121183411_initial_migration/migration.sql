@@ -40,21 +40,22 @@ CREATE TABLE "Poste" (
 -- CreateTable
 CREATE TABLE "Benevole" (
     "idBenevole" SERIAL NOT NULL,
-    "Nom" TEXT NOT NULL,
-    "Prenom" TEXT NOT NULL,
+    "Pseudo" TEXT NOT NULL,
+    "Nom" TEXT ,
+    "Prenom" TEXT ,
     "Email" TEXT NOT NULL,
     "Password" TEXT NOT NULL,
     "Role" TEXT NOT NULL,
-    "TailletTShirt" TEXT NOT NULL,
-    "Regime" TEXT NOT NULL,
-    "StatutHebergement" TEXT NOT NULL,
-    "NombreEditionPrecedente" INTEGER NOT NULL,
+    "TailletTShirt" TEXT ,
+    "Regime" TEXT ,
+    "StatutHebergement" TEXT ,
+    "NombreEditionPrecedente" INTEGER ,
     "Adresse" TEXT,
     "Ville" TEXT,
     "CodePostal" TEXT,
     "Telephone" TEXT,
     "JeuPrefere" TEXT,
-    "idAssociation" INTEGER NOT NULL,
+    "idAssociation" INTEGER,
 
     CONSTRAINT "Benevole_pkey" PRIMARY KEY ("idBenevole")
 );

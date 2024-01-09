@@ -1,6 +1,10 @@
-import { IsString, IsInt, IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsEmail, IsInt, IsOptional, IsString } from 'class-validator';
 
 export class UpdateDto {
+
+    @IsOptional()
+    @IsString()
+    readonly Pseudo?: string;
 
 
     @IsOptional()
