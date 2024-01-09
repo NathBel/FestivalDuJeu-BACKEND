@@ -14,7 +14,7 @@ export class FestivalModuleService {
             return {data: "Start date must be before end date"};
         }
 
-        await this.prismaService.festival.create({
+        return this.prismaService.festival.create({
             data: {
                 NomFestival,
                 DateDebut: new Date(DateDebut),
@@ -22,8 +22,6 @@ export class FestivalModuleService {
                 Ville
             }
         });
-
-        return {data: "Festival successfully created"};
     }
 
     async getAllFestivals() {
