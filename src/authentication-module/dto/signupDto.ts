@@ -22,7 +22,7 @@ export class SignupDto {
     @IsString()
     readonly Password: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     readonly Role: string;
 
