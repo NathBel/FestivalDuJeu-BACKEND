@@ -8,11 +8,11 @@ export class SignupDto {
 
     @IsOptional()
     @IsString()
-    readonly Nom: string;
+    readonly Nom?: string;
 
     @IsOptional()
     @IsString()
-    readonly Prenom: string;
+    readonly Prenom?: string;
 
     @IsNotEmpty()
     @IsEmail()
@@ -24,23 +24,23 @@ export class SignupDto {
 
     @IsOptional()
     @IsString()
-    readonly Role: string;
+    readonly Role?: string;
 
     @IsOptional()
     @IsString()
-    readonly TailletTShirt: string;
+    readonly TailletTShirt?: string;
 
     @IsOptional()
     @IsString()
-    readonly Regime: string;
+    readonly Regime?: string;
 
     @IsOptional()
     @IsString()
-    readonly StatutHebergement: string;
+    readonly StatutHebergement?: string;
 
     @IsOptional()
     @IsInt()
-    readonly NombreEditionPrecedente: number;
+    readonly NombreEditionPrecedente?: number;
 
     @IsOptional()
     @IsString()

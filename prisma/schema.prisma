@@ -72,15 +72,15 @@ model Poste {
 model Benevole {
   idBenevole            Int          @id @default(autoincrement())
   Pseudo                String       @unique
-  Nom                   String
-  Prenom                String
+  Nom                   String?
+  Prenom                String?
   Email                 String       @unique
   Password              String
   Role                  Role        @default(User)
-  TailletTShirt         String
-  Regime                String
-  StatutHebergement     String
-  NombreEditionPrecedente Int
+  TailletTShirt         String?
+  Regime                String?
+  StatutHebergement     String?
+  NombreEditionPrecedente Int?
   Adresse               String?
   Ville                 String?
   CodePostal            String?
