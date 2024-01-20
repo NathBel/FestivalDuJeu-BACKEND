@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString } from "class-validator";
 
 
-export class CreateFestivalDto{
+export class CreateNotifDto{
 
     @IsNotEmpty()
     @IsString()
@@ -13,6 +13,5 @@ export class CreateFestivalDto{
     @IsNotEmpty()
     @IsString()
     Type : string;
-
 
 }
