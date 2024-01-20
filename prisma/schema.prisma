@@ -144,4 +144,11 @@ model Employer {
 
   @@id([idFestival, idPoste])
 }
+//Notification model
+model Notification {
+  idNotif         Int     @id @default(autoincrement())
+  NomNotification String
+  DateEnvoi       DateTime
+  Type            String
 
+}
