@@ -91,11 +91,14 @@ export class AuthenticationModuleService {
 
         //Retourner le token
         return {
-            data : {
-                role: user.Role,
+            data: {
+                token: token,
                 id: user.idBenevole,
-                token: token
+                email: user.Email,
+                role: user.Role,
+                pseudo: user.Pseudo
             }
+
         }
     }
 
