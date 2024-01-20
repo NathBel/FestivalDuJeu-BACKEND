@@ -29,7 +29,7 @@ export class InscriptionModuleService {
                 idPoste: createInscriptionDto.idPoste
             }
         });
-
+ 
         //Check if inscription already exists
         const inscription = await this.prismaService.inscription.findFirst({
             where: {

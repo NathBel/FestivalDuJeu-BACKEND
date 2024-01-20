@@ -32,16 +32,10 @@ export class NotifModuleController {
     async getNotificationByType(@Param('type') Type: string) {
         return this.notifModuleService.getNotificationByType(Type);
     }
+
     
-    @Delete(':id')
-    async deleteNotification(@Req() request: Request, @Param('id', ParseIntPipe) idNotif: number) {
-        //Check if user is allowed to delete a festival (=user is admin)
-        const user = request.user;
-
-        if(!user || user["Role"] !== "Admin") {
-            throw new ForbiddenException(`You are not allowed to delete a notification`);
-        }
-
-        return this.notifModuleService.deleteNotification(idNotif);
+    @Delete('/delete/:idNotif/:idFestival')
+    async deleteNotification(@Param('idNotif', ParseIntPipe) idNotif: number, @Param('idFestival', ParseIntPipe) idFestival: number) {
+        return this.notifModuleService.deleteNotification(idNotif, idFestival);
     }
 }

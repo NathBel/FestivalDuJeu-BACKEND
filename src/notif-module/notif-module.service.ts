@@ -7,18 +7,27 @@ export class NotifModuleService {
     constructor(private readonly prismaService: PrismaModuleService){}
 
     async createNotif(createNotifDto) {
-        const {NomNotification, DateEnvoi,Type} = createNotifDto;
+        const {idFestival, TexteNotification, Type, DateEnvoi} = createNotifDto;
 
-
-        return this.prismaService.notification.create({
-            data: {
-                NomNotification,
-                DateEnvoi: new Date(DateEnvoi),
-                Type
+        //Check if festival exists
+        const festival = await this.prismaService.festival.findUnique({
+            where: {
+                idFestival: idFestival
             }
         });
 
-        
+        if(!festival) {
+            return {data: "Festival not found"};
+        }
+
+        return this.prismaService.notification.create({
+            data: {
+                idFestival,
+                TexteNotification,
+                DateEnvoi: new Date(DateEnvoi),
+                Type,
+            }
+        });
     }
 
     async getAllNotifications() {
@@ -27,8 +36,7 @@ export class NotifModuleService {
 
     async getNotificationByType(Type: string) {
 
-        //Check if festival exists
-        const notification = await this.prismaService.notification.findUnique({
+        const notification = await this.prismaService.notification.findMany({
             where: {
                 Type: Type
             }
@@ -38,33 +46,18 @@ export class NotifModuleService {
             return {data: "Notification not found"};
         }
 
-        return await this.prismaService.notification.findUnique({
-            where: {
-                Type: Type
-            }
-        });
+        return notification;
     }
 
     
-    async deleteNotification(idNotif: number) {
-
-        //Check if festival exists
-        const notification = await this.prismaService.notification.findUnique({
+    async deleteNotification(idNotif: number, idFestival: number) {
+        return this.prismaService.notification.delete({
             where: {
-                idNotif: idNotif
+                idFestival_idNotif: {
+                    idNotif: idNotif,
+                    idFestival: idFestival
+                }
             }
         });
-
-        if(!notification) {
-            return {data: "Notif not found"};
-        }
-        
-        await this.prismaService.notification.delete({
-            where: {
-                idNotif: idNotif
-            }
-        });
-
-        return {data: "Notification successfully deleted"};
     }
 }

@@ -1,17 +1,22 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsDate, IsInt, IsNotEmpty, IsString } from "class-validator";
 
 
 export class CreateNotifDto{
 
     @IsNotEmpty()
-    @IsString()
-    NomNotification: string;
+    @IsInt()
+    idFestival: number;
 
     @IsNotEmpty()
+    @IsString()
+    TexteNotification: string;
+
+    @IsNotEmpty()
+    @IsString()
+    Type: string;
+
+    @IsNotEmpty()
+    @IsDate()
     DateEnvoi: Date;
-
-    @IsNotEmpty()
-    @IsString()
-    Type : string;
 
 }

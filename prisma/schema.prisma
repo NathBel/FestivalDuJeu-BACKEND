@@ -27,6 +27,7 @@ model Festival {
 
   ZonesBenevole ZoneBenevole[]
   Employers     Employer[]
+  Notifications Notification[]
 }
 
 // Association model
@@ -146,9 +147,12 @@ model Employer {
 }
 //Notification model
 model Notification {
-  idNotif         Int     @id @default(autoincrement())
-  NomNotification String
+  idFestival      Int     
+  idNotif         Int     @default(autoincrement())
+  TexteNotification String
   DateEnvoi       DateTime
   Type            String
+  Festival        Festival @relation(fields: [idFestival], references: [idFestival])
 
+  @@id([idFestival, idNotif])
 }
