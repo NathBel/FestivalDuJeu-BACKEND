@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaModuleService } from 'src/prisma-module/prisma-module.service';
-
+import { CreateNotifDto } from './dto/createNotifDto';
 @Injectable()
 export class NotifModuleService {
 
     constructor(private readonly prismaService: PrismaModuleService){}
 
-    async createNotif(createNotifDto) {
+    async createNotif(createNotifDto:CreateNotifDto) {
         const {idFestival, TexteNotification, Type, DateEnvoi} = createNotifDto;
 
         //Check if festival exists
@@ -20,14 +20,15 @@ export class NotifModuleService {
             return {data: "Festival not found"};
         }
 
-        return this.prismaService.notification.create({
+        await this.prismaService.notification.create({
             data: {
-                idFestival,
-                TexteNotification,
-                DateEnvoi: new Date(DateEnvoi),
-                Type,
+                idFestival:idFestival,
+                TexteNotification: TexteNotification,
+                Type: Type,
+                DateEnvoi: DateEnvoi
             }
         });
+        return {data: "Notification send"};
     }
 
     async getAllNotifications() {
