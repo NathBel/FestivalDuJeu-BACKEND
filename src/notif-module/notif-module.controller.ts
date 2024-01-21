@@ -21,7 +21,7 @@ export class NotifModuleController {
 
         createNotifDto.DateEnvoi = new Date(Date.now());
 
-        return this.notifModuleService.createNotif(CreateNotifDto);
+        return this.notifModuleService.createNotif(new CreateNotifDto);
     }
 
     @Get()
