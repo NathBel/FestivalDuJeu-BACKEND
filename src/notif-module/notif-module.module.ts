@@ -6,4 +6,4 @@ import { NotifModuleService } from './notif-module.service';
   controllers: [NotifModuleController],
   providers: [NotifModuleService]
 })
-export class FestivalModuleModule {}
+export class NotificationModuleModule {}
