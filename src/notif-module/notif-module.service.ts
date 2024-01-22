@@ -8,6 +8,7 @@ export class NotifModuleService {
 
     async createNotif(createNotifDto:CreateNotifDto) {
         const {idFestival, TexteNotification, Type, DateEnvoi} = createNotifDto;
+        console.log(createNotifDto);
 
         //Check if festival exists
         const festival = await this.prismaService.festival.findUnique({

@@ -1,4 +1,4 @@
-import { IsDate, IsInt, IsNotEmpty, IsString } from "class-validator";
+import { IsInt, IsNotEmpty, IsString } from "class-validator";
 
 
 export class CreateNotifDto{
@@ -15,8 +15,6 @@ export class CreateNotifDto{
     @IsString()
     Type: string;
 
-    @IsNotEmpty()
-    @IsDate()
     DateEnvoi: Date;
 
 }

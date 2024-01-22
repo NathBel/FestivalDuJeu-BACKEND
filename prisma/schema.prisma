@@ -150,7 +150,7 @@ model Notification {
   idFestival      Int     
   idNotif         Int     @default(autoincrement())
   TexteNotification String
-  DateEnvoi       DateTime
+  DateEnvoi       DateTime?
   Type            String
   Festival        Festival @relation(fields: [idFestival], references: [idFestival])
 
