@@ -26,7 +26,7 @@ export class NotifModuleService {
                 idFestival:idFestival,
                 TexteNotification: TexteNotification,
                 Type: Type,
-                DateEnvoi: DateEnvoi
+                DateEnvoi: new Date(Date.now())
             }
         });
         return {data: "Notification send"};
