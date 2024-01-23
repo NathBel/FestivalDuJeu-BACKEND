@@ -6,31 +6,23 @@ export class NotifModuleService {
 
     constructor(private readonly prismaService: PrismaModuleService){}
 
-    async createNotif(createNotifDto:CreateNotifDto) {
-        const {idFestival, TexteNotification, Type, DateEnvoi} = createNotifDto;
-        console.log(createNotifDto);
-
-        //Check if festival exists
-        const festival = await this.prismaService.festival.findUnique({
-            where: {
-                idFestival: idFestival
-            }
+    async createNotification(createNotifDto: CreateNotifDto) {
+        const { idFestival, TexteNotification, Type } = createNotifDto;
+    
+        // Obtenez la date actuelle
+        const currentDate = new Date();
+    
+        const createdNotification = await this.prismaService.notification.create({
+          data: {
+            idFestival,
+            TexteNotification,
+            Type,
+            DateEnvoi: currentDate,
+          },
         });
-
-        if(!festival) {
-            return {data: "Festival not found"};
-        }
-
-        await this.prismaService.notification.create({
-            data: {
-                idFestival:idFestival,
-                TexteNotification: TexteNotification,
-                Type: Type,
-                DateEnvoi: new Date(Date.now())
-            }
-        });
-        return {data: "Notification send"};
-    }
+    
+        return createdNotification;
+      }
 
     async getAllNotifications() {
         return await this.prismaService.notification.findMany();

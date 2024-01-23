@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, ForbiddenException, Get, Param, ParseIntPipe, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 import { CreateNotifDto } from './dto/createNotifDto';
 import { NotifModuleService } from './notif-module.service';
 
@@ -11,19 +10,10 @@ export class NotifModuleController {
 
     @UseGuards(AuthGuard("jwt"))
     @Post()
-    async createNotif(@Req() request: Request, @Body() createNotifDto: CreateNotifDto) {
-        //Check if user is allowed to create a festival (=user is admin)
-        const user = request.user;
-
-        if(!user || user["Role"] !== "Admin") {
-            throw new ForbiddenException(`You are not allowed to send a notification`);
-        }
-
-        createNotifDto.DateEnvoi = new Date(Date.now());
-
-        return this.notifModuleService.createNotif(new CreateNotifDto);
+    async createNotification(@Body() createNotifDto: CreateNotifDto) {
+      return this.notifModuleService.createNotification(createNotifDto);
     }
-
+  
     @Get()
     async getAllNotifications() {
         return this.notifModuleService.getAllNotifications();
