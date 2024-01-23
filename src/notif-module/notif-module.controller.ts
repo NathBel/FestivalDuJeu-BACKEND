@@ -18,10 +18,11 @@ export class NotifModuleController {
     async getAllNotifications() {
         return this.notifModuleService.getAllNotifications();
     }
-    @Get()
-    async getNotificationByType(@Param('type') Type: string) {
-        return this.notifModuleService.getNotificationByType(Type);
+    @Get('/:idFestival')
+    async getNotificationByFestival(@Param('idFestival', ParseIntPipe) idFestival: number) {
+        return this.notifModuleService.getNotificationByFestival(idFestival);
     }
+  
 
     
     @Delete('/delete/:idNotif/:idFestival')

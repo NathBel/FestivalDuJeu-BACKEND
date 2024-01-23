@@ -28,11 +28,11 @@ export class NotifModuleService {
         return await this.prismaService.notification.findMany();
     }
 
-    async getNotificationByType(Type: string) {
+    async getNotificationByFestival(idFestival: number) {
 
         const notification = await this.prismaService.notification.findMany({
             where: {
-                Type: Type
+                idFestival: idFestival
             }
         });
 
