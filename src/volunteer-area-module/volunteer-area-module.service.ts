@@ -29,6 +29,7 @@ export class VolunteerAreaModuleService {
         if(!festival){
             throw new NotFoundException(`Festival with id ${createAreaDto.idFestival} not found`);
         }
+        
 
         return this.prismaService.zoneBenevole.create({
             data: createAreaDto

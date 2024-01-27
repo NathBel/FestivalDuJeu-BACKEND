@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards, ForbiddenException } from '@nestjs/common';
-import { VolunteerAreaModuleService } from './volunteer-area-module.service';
+import { Body, Controller, Delete, ForbiddenException, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 import { CreateAreaDto } from './dto/createAreaDto';
 import { UpdateAreaDto } from './dto/updateAreaDto';
-import { Request } from 'express';
-import { AuthGuard } from '@nestjs/passport';
+import { VolunteerAreaModuleService } from './volunteer-area-module.service';
 
 @Controller('volunteer-area-module')
 export class VolunteerAreaModuleController {

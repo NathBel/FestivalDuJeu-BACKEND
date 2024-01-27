@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsInt, IsOptional, IsString } from "class-validator";
 
 export class UpdateAreaDto{
 
@@ -17,6 +17,10 @@ export class UpdateAreaDto{
     @IsOptional()
     @IsInt()
     idFestival?: number;
+
+    @IsOptional()
+    @IsInt()
+    idPoste?: number;
 
     @IsOptional()
     @IsString()

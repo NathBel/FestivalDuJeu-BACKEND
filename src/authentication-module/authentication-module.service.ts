@@ -282,4 +282,12 @@ export class AuthenticationModuleService {
     async getAllUsers() {
         return this.prismaService.benevole.findMany();
     }
+
+    async getUserById(userId: number) {
+        return this.prismaService.benevole.findUnique({
+            where: {
+                idBenevole: userId
+            }
+        });
+    }
 }

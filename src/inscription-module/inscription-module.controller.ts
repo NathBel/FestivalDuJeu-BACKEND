@@ -1,9 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards, ForbiddenException } from '@nestjs/common';
-import { InscriptionModuleService } from './inscription-module.service';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { CreateInscriptionDto } from './dto/CreateInscriptionDto';
 import { UpdateInscriptionDto } from './dto/UpdateInscriptionDto';
-import { Request } from 'express';
-import { AuthGuard } from '@nestjs/passport';
+import { InscriptionModuleService } from './inscription-module.service';
 
 @Controller('inscription-module')
 export class InscriptionModuleController {
@@ -40,13 +38,13 @@ export class InscriptionModuleController {
         return this.inscriptionService.getInscriptionByZoneId(idZone);
     }
 
-    @Get('/jour/creneau')
-    async getInscriptionByDayAndTime(@Body('Jour') Jour: string, @Body('Creneau') Creneau: string){
+    @Get('/:jour/:creneau')
+    async getInscriptionByDayAndTime(@Param('Jour') Jour: string, @Param('Creneau') Creneau: string){
         return this.inscriptionService.getInscriptionByDayAndTime(Jour, Creneau);
     }
 
     @Put('/update')
-    async updateInscription( 
+    async updateInscription(
     @Body('idBenevole', ParseIntPipe) idVolunteer: number,
     @Body('idPoste', ParseIntPipe) idPosition: number,
     @Body('idZoneBenevole', ParseIntPipe) idZone: number,

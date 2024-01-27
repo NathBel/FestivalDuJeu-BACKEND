@@ -18,6 +18,10 @@ export class CreateAreaDto{
     @IsInt()
     idFestival: number;
 
+    @IsNotEmpty()
+    @IsInt()
+    idPoste: number;
+
     @IsOptional()
     @IsString()
     Jeux?: string;

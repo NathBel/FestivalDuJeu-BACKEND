@@ -1,13 +1,13 @@
-import { UseGuards, Req, Controller, Post, Body, Put, Delete, Get, ForbiddenException } from '@nestjs/common';
-import { SignupDto } from './dto/signupDto';
-import { SigninDto } from './dto/signinDto';
-import { UpdateRoleDto } from './dto/updateRoleDto';
-import { ResetPasswordDemandDto } from './dto/resetPasswordDto';
-import { ResetPasswordConfirmationDto } from './dto/resetPasswordConfirmationDto';
-import { AuthenticationModuleService } from './authentication-module.service';
+import { Body, Controller, Delete, ForbiddenException, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
+import { AuthenticationModuleService } from './authentication-module.service';
 import { DeleteAccountDto } from './dto/deleteAccountDto';
+import { ResetPasswordConfirmationDto } from './dto/resetPasswordConfirmationDto';
+import { ResetPasswordDemandDto } from './dto/resetPasswordDto';
+import { SigninDto } from './dto/signinDto';
+import { SignupDto } from './dto/signupDto';
+import { UpdateRoleDto } from './dto/updateRoleDto';
 
 @Controller('authentication-module')
 export class AuthenticationModuleController {
@@ -65,5 +65,10 @@ export class AuthenticationModuleController {
     getAllUser() {
         return this.authService.getAllUsers();
     }
+
+    @Get('/:idBenevole')
+getUserById(@Param('idBenevole', ParseIntPipe) idBenevole: number){
+    return this.authService.getUserById(idBenevole);
+}
 
 }

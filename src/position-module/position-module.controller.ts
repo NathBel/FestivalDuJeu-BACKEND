@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards, ForbiddenException } from '@nestjs/common';
-import { PositionModuleService } from './position-module.service';
+import { Body, Controller, Delete, ForbiddenException, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 import { CreatePositionDto } from './dto/CreatePositionDto';
 import { UpdatePositionDto } from './dto/UpdatePositionDto';
-import { Request } from 'express';
-import { AuthGuard } from '@nestjs/passport';
+import { PositionModuleService } from './position-module.service';
 
 @Controller('position-module')
 export class PositionModuleController {

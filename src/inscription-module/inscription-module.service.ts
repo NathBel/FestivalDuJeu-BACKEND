@@ -95,14 +95,27 @@ export class InscriptionModuleService {
         });
     }
     
-    async getInscriptionByDayAndTime(Jour: string, Creneau: string){
-        return this.prismaService.inscription.findMany({
+    async getInscriptionByDayAndTime(Jour: string, Creneau: string) {
+        try {
+          const date = new Date(Jour);
+        console.log(date);
+        console.log(Jour);
+        console.log(new Date(Jour));
+          if (isNaN(date.getTime())) {
+            throw new Error('Date invalide');
+          }
+      
+          return this.prismaService.inscription.findMany({
             where: {
-                Jour: new Date(Jour),
-                Creneau: Creneau
-            }
-        });
-    }
+              Jour: date,
+              Creneau: Creneau,
+            },
+          });
+        } catch (error) {
+          console.error('Erreur lors de la conversion de la date :', error);
+          throw new Error('Date invalide');
+        }
+      }
 
     async updateInscription(idVolunteer: number, idPosition: number, idZone: number, Jour:string, Creneau:string, updateInscriptionDto: any){
             

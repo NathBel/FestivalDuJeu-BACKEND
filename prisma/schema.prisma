@@ -40,19 +40,7 @@ model Association {
   Benevoles      Benevole[]
 }
 
-// ZoneBenevole model
-model ZoneBenevole {
-  idZoneBenevole   Int    @id
-  nomZoneBenevole  String
-  capacite         Int
-  Festival         Festival  @relation(fields: [idFestival], references: [idFestival])
-  idFestival       Int
 
-  // Relations
-  Jeux             Jeux[]
-  Inscriptions     Inscription[]
-  Benevoles        Benevole[]
-}
 
 // Poste model
 model Poste {
@@ -67,6 +55,23 @@ model Poste {
   Employers     Employer[]
   EtreReferents EtreReferent[]
   Inscriptions  Inscription[]
+  ZoneBenevole  ZoneBenevole[]
+}
+// ZoneBenevole model
+model ZoneBenevole {
+  idZoneBenevole   Int    @id @default(autoincrement())
+  nomZoneBenevole  String
+  capacite         Int
+  Festival         Festival  @relation(fields: [idFestival], references: [idFestival])
+  idFestival       Int
+  idPoste          Int
+  Poste            Poste     @relation(fields: [idPoste], references: [idPoste])
+
+  // Relations
+  Jeux             Jeux[]
+  Inscriptions     Inscription[]
+  Benevoles        Benevole[]
+
 }
 
 // Benevole model
@@ -147,7 +152,7 @@ model Employer {
 }
 //Notification model
 model Notification {
-  idFestival      Int     
+  idFestival      Int
   idNotif         Int     @default(autoincrement())
   TexteNotification String
   DateEnvoi       DateTime

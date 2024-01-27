@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaModuleService } from 'src/prisma-module/prisma-module.service';
 
 @Injectable()
