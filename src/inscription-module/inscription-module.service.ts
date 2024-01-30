@@ -62,6 +62,30 @@ export class InscriptionModuleService {
         return this.prismaService.inscription.findMany();
     }
 
+    async getAllInscriptionUniqueIDbenevole(){
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0); // Définir l'heure sur 00:00:00.000
+
+        return this.prismaService.inscription.findMany({
+            select: {
+                idBenevole: true,
+                idPoste: true,
+                idZoneBenevole: true,
+                Creneau: true,
+                Jour: true,
+                isPresent: true
+            },
+            where: {
+                Jour: {
+                gte: todayStart,
+                lte: new Date() // Utilisez la date actuelle pour inclure jusqu'à maintenant
+                }
+            },
+            distinct: ['idBenevole'] 
+            
+        });
+    }
+
     async getInscriptionByVolunteerId(idVolunteer: number){
         return this.prismaService.inscription.findMany({
             where: {
@@ -181,5 +205,41 @@ export class InscriptionModuleService {
 
     }
 
+    async getTodayInscriptionById (idVolunteer: number){
+        //get all occurenced of volunteer
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0); // Définir l'heure sur 00:00:00.000
+
+        const volunteer = await this.prismaService.inscription.findMany({
+            where: {
+                idBenevole: idVolunteer,
+                Jour: {
+                gte: todayStart,
+                lte: new Date() // Utilisez la date actuelle pour inclure jusqu'à maintenant
+                }
+            }
+            });
+
+        return volunteer;
+    }
+
+    async updateInscriptionById(idInscription: number,presence: boolean){
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0); // Définir l'heure sur 00:00:00.000
+
+        return this.prismaService.inscription.updateMany({
+            where: {
+                idBenevole: idInscription,
+                Jour: {
+                gte: todayStart,
+                lte: new Date() // Utilisez la date actuelle pour inclure jusqu'à maintenant
+                }
+            },
+            data: {
+                isPresent: presence
+            }
+
+        });
+    }
 
 }
