@@ -178,45 +178,56 @@ export class AuthenticationModuleService {
     }
 
     async updateAccount(userId: number, updateDto: UpdateDto) {
-        const { Pseudo, Nom, Prenom, Email, TailletTShirt, Regime, StatutHebergement, NombreEditionPrecedente, Adresse, Ville, CodePostal, Telephone, JeuPrefere} = updateDto;
-
-        //Vérifier si l'utilisateur existe
         const user = await this.prismaService.benevole.findUnique({
             where: {
-                idBenevole: userId
-            }
+                idBenevole: userId,
+            },
         });
 
         if (!user) {
-            throw new NotFoundException("Utilisateur non trouvé");
+            throw new NotFoundException('Utilisateur non trouvé');
         }
 
-        //Mettre à jour l'utilisateur
+        // Filtrer les champs à mettre à jour
+        const {
+            Pseudo,
+            Nom,
+            Prenom,
+            Email,
+            TailletTShirt,
+            Regime,
+            StatutHebergement,
+            Adresse,
+            Ville,
+            CodePostal,
+            Telephone,
+            JeuPrefere,
+        } = updateDto;
+
+        // Mettre à jour uniquement les champs fournis
         await this.prismaService.benevole.update({
             where: {
-                idBenevole: userId
+                idBenevole: userId,
             },
             data: {
-                Pseudo: Pseudo,
-                Nom: Nom,
-                Prenom: Prenom,
-                Email: Email,
-                TailletTShirt: TailletTShirt,
-                Regime: Regime,
-                StatutHebergement: StatutHebergement,
-                NombreEditionPrecedente: NombreEditionPrecedente,
-                Adresse: Adresse,
-                Ville: Ville,
-                CodePostal: CodePostal,
-                Telephone: Telephone,
-                JeuPrefere: JeuPrefere,
-            }
+                Pseudo,
+                Nom,
+                Prenom,
+                Email,
+                TailletTShirt,
+                Regime,
+                StatutHebergement,
+                Adresse,
+                Ville,
+                CodePostal,
+                Telephone,
+                JeuPrefere,
+            },
         });
 
-        //Retourner un message de succès
         return {
-            data: "Compte mis à jour avec succès"
-        }
+            data: 'Informations du compte mises à jour avec succès',
+        };
     }
 
     async updateRole(userId: number, updateRoleDto: any) {
