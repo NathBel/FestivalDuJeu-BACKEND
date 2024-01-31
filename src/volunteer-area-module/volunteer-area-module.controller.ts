@@ -33,6 +33,11 @@ export class VolunteerAreaModuleController {
         return this.volunteerAreaService.getAreaById(idArea);
     }
 
+    @Get('/:idFestival/:idPoste')
+    async getAreaByIdFestivalAndIdPoste(@Param('idFestival', ParseIntPipe) idFestival: number, @Param('idPoste', ParseIntPipe) idPoste: number){
+        return this.volunteerAreaService.getAreaByIdFestivalAndIdPoste(idFestival, idPoste);
+    }
+
     @UseGuards(AuthGuard("jwt"))
     @Put('/:id')
     async updateArea(@Req() request: Request, @Param('id', ParseIntPipe) idArea: number, @Body() updateAreaDto: UpdateAreaDto){

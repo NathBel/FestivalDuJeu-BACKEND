@@ -72,7 +72,6 @@ model ZoneBenevole {
   Jeux             Jeux[]
   Inscriptions     Inscription[]
   Benevoles        Benevole[]
-
 }
 
 // Benevole model
