@@ -43,14 +43,14 @@ export class AuthenticationModuleController {
 
     @UseGuards(AuthGuard("jwt"))
     @Put("update-role")
-    updateRole(@Req() request: Request, @Body() updateRole: UpdateRoleDto) {
+    updateRole(@Req() request: Request, @Body() updateRole: UpdateRoleDto,@Body('idBenevole', ParseIntPipe) idBenevole: number){
         const user = request.user;
 
         if(!user || user["Role"] !== "Admin") {
             throw new ForbiddenException(`You are not allowed to update a role`);
         }
 
-        return this.authService.updateRole(user["idBenevole"], updateRole);
+        return this.authService.updateRole(idBenevole, updateRole);
     }
 
 
