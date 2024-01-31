@@ -36,4 +36,13 @@ export class MailerService {
 
         });
     }
+
+    async sendReminderMail(userEmail: string){
+        (await this.transporter()).sendMail({
+            from: "app@localhost.com",
+            to : userEmail,
+            subject: "Rappel",
+            text: "<h3>Vous avez un évènement aujourd'hui ! </h3>"
+        });
+    }
 }
