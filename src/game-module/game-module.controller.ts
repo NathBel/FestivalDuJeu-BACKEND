@@ -33,6 +33,11 @@ export class GameModuleController {
         return this.gameModuleService.getGame(idGame);
     }
 
+    @Get('/zoneBenevole/:idZone')
+    getGameByZone(@Param('idZone', ParseIntPipe) idZone: number) {
+        return this.gameModuleService.getGameByZone(idZone);
+    }
+
     @UseGuards(AuthGuard('jwt'))
     @Put('/:id')
     updateGame(@Req() request: Request, @Param('id', ParseIntPipe) idGame: number, @Body() updateGameDto: UpdateGameDto) {

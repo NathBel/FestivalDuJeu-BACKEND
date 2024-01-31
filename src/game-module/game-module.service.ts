@@ -60,6 +60,21 @@ export class GameModuleService {
         });
     }
 
+    async getGameByZone(idZone: number) {
+
+        const game = await this.PrismaModuleService.jeux.findMany({
+            where: {
+                idZoneBenevole: idZone
+            }
+        });
+
+        if(!game) {
+            throw new NotFoundException(`Game with id ${idZone} not found`);
+        }
+        
+        return game;
+    }
+
     async updateGame(id: number, updateGameDto: UpdateGameDto) {
 
         const game = await this.PrismaModuleService.jeux.findUnique({

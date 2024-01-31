@@ -34,7 +34,6 @@ export class AuthenticationModuleController {
         return this.authService.resetPasswordConfirmation(resetPasswordConfirmationDto);
     }
 
-    @UseGuards(AuthGuard("jwt"))
     @Put("update-account")
     updateAccount(@Req() request: Request, @Body() signupDto: SignupDto) {
         const userId = request.user["idBenevole"];
