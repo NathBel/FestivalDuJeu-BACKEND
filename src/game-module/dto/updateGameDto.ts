@@ -5,32 +5,51 @@ export class UpdateGameDto {
 
     @IsInt()
     @IsOptional()
-    readonly idJeux?: number;
+    readonly idJeux: number;
     
-    @IsNotEmpty()
     @IsOptional()
-    readonly NomJeu?: string;
-
-    @IsNotEmpty()
-    @IsOptional()
-    readonly Editeur?: string;
-
-    @IsNotEmpty()
-    @IsOptional()
-    readonly TypePublic?: string;
-
-    @IsNotEmpty()
-    @IsOptional()
-    readonly Animation?: boolean;
-
-    @IsNotEmpty()
-    @IsOptional()
-    readonly Recu?: boolean;
+    readonly NomJeu: string;
 
     @IsOptional()
-    readonly LienNotice?: string;
+    readonly Auteur: string;
 
     @IsOptional()
-    readonly LienVideoExplicative?: string;
+    readonly Editeur: string;
+
+    @IsOptional()
+    readonly NbJoueurs: string;
+
+    @IsOptional()
+    readonly AgeMin: string;
+
+    @IsOptional()
+    readonly Duree: string;
+
+    @IsOptional()
+    readonly TypePublic: string;
+
+    @IsOptional()
+    readonly LienNotice: string;
+
+    @IsOptional()
+    readonly Animation: string;
+
+    @IsOptional()
+    readonly Recu: string;
+
+    @IsOptional()
+    readonly Mecanisme: string;
+
+    @IsOptional()
+    readonly Theme: string;
+
+    @IsOptional()
+    readonly Tags: string;
+
+    @IsOptional()
+    readonly Description: string;
+
+    @IsOptional()
+    readonly LienVideoExplicative: string;
 
 }

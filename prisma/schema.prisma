@@ -106,12 +106,20 @@ model Benevole {
 model Jeux {
   idJeux                Int       @id 
   NomJeu                String
-  Editeur               String
-  TypePublic            String
-  Animation             Boolean
-  Recu                  Boolean
-  LienNotice            String
-  LienVideoExplicative  String
+  Auteur                String?
+  Editeur               String?
+  NbJoueurs             String?
+  AgeMin                String?
+  Duree                 String?
+  TypePublic            String?
+  LienNotice            String?
+  Animation             String?
+  Recu                  String?
+  Mecanisme             String?
+  Theme                 String?
+  Tags                  String?
+  Description           String?
+  LienVideoExplicative  String?
   idZoneBenevole        Int?
   ZoneBenevole          ZoneBenevole? @relation(fields: [idZoneBenevole], references: [idZoneBenevole])
   }

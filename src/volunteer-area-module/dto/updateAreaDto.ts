@@ -4,34 +4,34 @@ export class UpdateAreaDto{
 
     @IsOptional()
     @IsInt()
-    idZoneBenevole?: number;
+    idZoneBenevole: number;
 
     @IsOptional()
     @IsString()
-    nomZoneBenevole?: string;
+    nomZoneBenevole: string;
 
     @IsOptional()
     @IsInt()
-    capacite?: number;
+    capacite: number;
 
     @IsOptional()
     @IsInt()
-    idFestival?: number;
+    idFestival: number;
 
     @IsOptional()
     @IsInt()
-    idPoste?: number;
+    idPoste: number;
 
     @IsOptional()
     @IsString()
-    Jeux?: string;
+    Jeux: string;
 
     @IsOptional()
     @IsString()
-    Inscriptions?: string;
+    Inscriptions: string;
 
     @IsOptional()
     @IsString()
-    Benevoles?: string;
+    Benevoles: string;
 
 }

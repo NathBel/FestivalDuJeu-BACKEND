@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsInt } from 'class-validator';
+import { IsNotEmpty, IsInt, IsOptional } from 'class-validator';
 
 export class CreateGameDto {
 
@@ -9,20 +9,46 @@ export class CreateGameDto {
     @IsNotEmpty()
     readonly NomJeu: string;
 
-    @IsNotEmpty()
+    @IsOptional()
+    readonly Auteur: string;
+
+    @IsOptional()
     readonly Editeur: string;
 
-    @IsNotEmpty()
+    @IsOptional()
+    readonly NbJoueurs: string;
+
+    @IsOptional()
+    readonly AgeMin: string;
+
+    @IsOptional()
+    readonly Duree: string;
+
+    @IsOptional()
     readonly TypePublic: string;
 
-    @IsNotEmpty()
-    readonly Animation: boolean;
-
-    @IsNotEmpty()
-    readonly Recu: boolean;
-
+    @IsOptional()
     readonly LienNotice: string;
 
+    @IsOptional()
+    readonly Animation: string;
+
+    @IsOptional()
+    readonly Recu: string;
+
+    @IsOptional()
+    readonly Mecanisme: string;
+
+    @IsOptional()
+    readonly Theme: string;
+
+    @IsOptional()
+    readonly Tags: string;
+
+    @IsOptional()
+    readonly Description: string;
+    
+    @IsOptional()
     readonly LienVideoExplicative: string;
 
     @IsInt()

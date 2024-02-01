@@ -49,7 +49,7 @@ export class VolunteerAreaModuleService {
         });
 
         if(!area){
-            throw new Error(`Area with id ${idArea} not found`);
+            throw new NotFoundException(`Area with id ${idArea} not found`);
         }
 
         return area;

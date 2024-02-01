@@ -16,19 +16,28 @@ export class GameModuleService {
         }
 
         //Recuperation des données du jeu à créer
-        const {idJeux, NomJeu, Editeur, TypePublic, Animation, Recu, LienNotice, LienVideoExplicative} = createGameDto;
+        const {idJeux, NomJeu, Auteur, Editeur, NbJoueurs, AgeMin, Duree, TypePublic, LienNotice, Animation, Recu, Mecanisme, Theme, Tags, Description, LienVideoExplicative, idZoneBenevole} = createGameDto;
 
                 //Creation du jeu
         await this.PrismaModuleService.jeux.create({
             data: {
                 idJeux,
                 NomJeu,
+                Auteur,
                 Editeur,
+                NbJoueurs,
+                AgeMin,
+                Duree,
                 TypePublic,
+                LienNotice,
                 Animation,
                 Recu,
-                LienNotice,
+                Mecanisme,
+                Theme,
+                Tags,
+                Description,
                 LienVideoExplicative,
+                idZoneBenevole
             }
         });
 
