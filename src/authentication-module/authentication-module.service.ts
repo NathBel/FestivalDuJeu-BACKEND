@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt/dist';
+import { JwtModule, JwtSecretRequestType, JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as speakeasy from 'speakeasy';
 import { MailerService } from 'src/mailer/mailer.service';
@@ -10,6 +10,11 @@ import { ResetPasswordDemandDto } from './dto/resetPasswordDto';
 import { SigninDto } from './dto/signinDto';
 import { SignupDto } from './dto/signupDto';
 import { UpdateDto } from './dto/updateDto';
+import { AuthorizedDto } from './dto/Authorized';
+import { jwtDecode } from "jwt-decode";
+   
+
+
 
 @Injectable()
 export class AuthenticationModuleService {
@@ -301,4 +306,42 @@ export class AuthenticationModuleService {
             }
         });
     }
+    async getAuthorized(AuthorizedDto: AuthorizedDto) {
+        // Vérification de la connexion
+        const token = AuthorizedDto.Token;
+        const decodedToken = jwtDecode(token);
+        const rolesAuthorized = AuthorizedDto.RoleAuthorized.split(',');
+        const user = await this.prismaService.benevole.findUnique({
+            where: {
+                Email: decodedToken['email']
+            }
+        });
+    
+        console.log(AuthorizedDto);
+        
+        
+        console.log(decodedToken);
+        console.log(rolesAuthorized);
+        // // Vérifie si le rôle extrait du token est autorisé
+        if (decodedToken['role'] && rolesAuthorized.includes(decodedToken['role'])) {
+            return true;
+        } else {
+            return false;
+        }    
+
+        // if(!user){
+        //     return false
+        //     }
+        // else{
+        //     const info = jwt.
+        //     if( signinDto.token.role in signinDto.RoleAuthorise )
+        //     {
+        //         return true
+        //     }
+        //     console.log(AuthorizedDto)
+            
+        
+    }
+
 }
+
