@@ -7,6 +7,7 @@ import { ResetPasswordConfirmationDto } from './dto/resetPasswordConfirmationDto
 import { ResetPasswordDemandDto } from './dto/resetPasswordDto';
 import { SigninDto } from './dto/signinDto';
 import { SignupDto } from './dto/signupDto';
+import { UpdateDto } from './dto/updateDto';
 import { UpdateRoleDto } from './dto/updateRoleDto';
 
 @Controller('authentication-module')
@@ -34,26 +35,23 @@ export class AuthenticationModuleController {
         return this.authService.resetPasswordConfirmation(resetPasswordConfirmationDto);
     }
 
-    @UseGuards(AuthGuard("jwt"))
-    @Put("update-account")
-    updateAccount(@Req() request: Request, @Body() signupDto: SignupDto) {
-        const userId = request.user["idBenevole"];
-        return this.authService.updateAccount(userId, signupDto);
-    }
 
     @UseGuards(AuthGuard("jwt"))
     @Put("update-role")
-    updateRole(@Req() request: Request, @Body() updateRole: UpdateRoleDto) {
+    updateRole(@Req() request: Request, @Body() updateRole: UpdateRoleDto,@Body('idBenevole', ParseIntPipe) idBenevole: number){
         const user = request.user;
 
         if(!user || user["Role"] !== "Admin") {
             throw new ForbiddenException(`You are not allowed to update a role`);
         }
 
-        return this.authService.updateRole(user["idBenevole"], updateRole);
+        return this.authService.updateRole(idBenevole, updateRole);
     }
 
-
+    @Put(':userId/update-account')
+    updateAccount(@Param('userId', ParseIntPipe) userId: number, @Body() updateDto: UpdateDto) {
+        return this.authService.updateAccount(userId, updateDto);
+    }
     @UseGuards(AuthGuard("jwt"))
     @Delete("delete-account")
     deleteAccount(@Req() request: Request, @Body() deleteAccountDto: DeleteAccountDto) {

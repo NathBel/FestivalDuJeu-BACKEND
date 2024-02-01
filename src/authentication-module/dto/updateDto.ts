@@ -1,4 +1,4 @@
-import { IsEmail, IsInt, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class UpdateDto {
 
@@ -32,10 +32,6 @@ export class UpdateDto {
     readonly StatutHebergement?: string;
 
     @IsOptional()
-    @IsInt()
-    readonly NombreEditionPrecedente?: number;
-
-    @IsOptional()
     @IsString()
     readonly Adresse?: string;
 
@@ -54,5 +50,6 @@ export class UpdateDto {
     @IsOptional()
     @IsString()
     readonly JeuPrefere?: string;
+    
 
 }

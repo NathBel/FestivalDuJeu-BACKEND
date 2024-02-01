@@ -63,4 +63,20 @@ export class InscriptionModuleController {
     @Body('Creneau') Creneau: string){
         return this.inscriptionService.deleteInscription(idVolunteer, idPosition, idZone, Jour, Creneau);
     }
-}
+
+    @Get ('inscription/:id')
+    async getInscriptionById(@Param('id', ParseIntPipe) idInscription: number){
+        return this.inscriptionService.getTodayInscriptionById(idInscription);
+    }
+
+    @Put ('inscriptionPresent/:id')
+    async updateInscriptionById(@Param('id', ParseIntPipe) idInscription: number,
+    @Body('Presence') presence: boolean){
+        return this.inscriptionService.updateInscriptionById(idInscription,presence);
+    }
+
+    @Get('getAllbenevoleInscritToday')
+    async getAllInscriptionUniqueIDbenevole(){
+        return this.inscriptionService.getAllInscriptionUniqueIDbenevole();
+    }
+ }

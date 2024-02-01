@@ -15,6 +15,7 @@ enum Role {
     User
     Admin
     Referent
+    Accueil
 }
 
 
@@ -71,7 +72,6 @@ model ZoneBenevole {
   Jeux             Jeux[]
   Inscriptions     Inscription[]
   Benevoles        Benevole[]
-
 }
 
 // Benevole model

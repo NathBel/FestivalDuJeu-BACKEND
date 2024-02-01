@@ -55,6 +55,22 @@ export class VolunteerAreaModuleService {
         return area;
     }
 
+    async getAreaByIdFestivalAndIdPoste(idFestival: number, idPoste: number){
+        //Check if area exists
+        const area = await this.prismaService.zoneBenevole.findMany({
+            where: {
+                idFestival: idFestival,
+                idPoste: idPoste
+            },
+        });
+
+        if(!area){
+            throw new Error(`Area with idFestival ${idFestival} and idPoste ${idPoste} not found`);
+        }
+
+        return area;
+    }
+
     async updateArea(idArea: number, updateAreaDto: any){
         //Check if area exists
         const area = await this.prismaService.zoneBenevole.findUnique({
