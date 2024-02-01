@@ -9,6 +9,8 @@ import { SigninDto } from './dto/signinDto';
 import { SignupDto } from './dto/signupDto';
 import { UpdateDto } from './dto/updateDto';
 import { UpdateRoleDto } from './dto/updateRoleDto';
+import { AuthorizedDto } from './dto/Authorized';
+import { request } from 'http';
 
 @Controller('authentication-module')
 export class AuthenticationModuleController {
@@ -64,9 +66,25 @@ export class AuthenticationModuleController {
         return this.authService.getAllUsers();
     }
 
-    @Get('/:idBenevole')
-getUserById(@Param('idBenevole', ParseIntPipe) idBenevole: number){
-    return this.authService.getUserById(idBenevole);
-}
+  
 
+    
+    @UseGuards(AuthGuard('jwt'))
+    @Get('/authorized')
+    getAuthorized(@Req() request: Request,@Body() AuthorizedDto: AuthorizedDto) {
+        console.log("test")
+        const user = request.user;
+        if(!user || user["Role"] !=="Admin"){
+            throw new ForbiddenException(" you are not allowed to do thattttt")
+        }
+        else{
+        return this.authService.getAuthorized(AuthorizedDto);
+        }
+    }
+    
+    
+    @Get('/:idBenevole')
+    getUserById(@Param('idBenevole', ParseIntPipe) idBenevole: number){
+        return this.authService.getUserById(idBenevole);
+    }   
 }
