@@ -64,6 +64,11 @@ export class InscriptionModuleController {
         return this.inscriptionService.deleteInscription(idVolunteer, idPosition, idZone, Jour, Creneau);
     }
 
+    @Delete('/delete/:id')
+    async deleteInscriptionById(@Param('id', ParseIntPipe) idVolunteer: number){
+        return this.inscriptionService.deleteInscriptionByidBenevole(idVolunteer);
+    }
+
     @Get ('inscription/:id')
     async getInscriptionById(@Param('id', ParseIntPipe) idInscription: number){
         return this.inscriptionService.getTodayInscriptionById(idInscription);
