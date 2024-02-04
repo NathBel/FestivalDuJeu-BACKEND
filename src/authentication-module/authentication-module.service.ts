@@ -318,7 +318,15 @@ export class AuthenticationModuleService {
         const tokenString = JSON.stringify(decodedToken['role']);
 
         return tokenString;
-
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
         // if(!user){
         //     return false
         //     }
