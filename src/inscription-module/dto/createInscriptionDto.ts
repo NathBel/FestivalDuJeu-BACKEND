@@ -24,5 +24,5 @@ export class CreateInscriptionDto {
 
     @IsOptional()
     @IsInt()
-    idZoneBenevole: number;
+    idZoneBenevole?: number;
 }

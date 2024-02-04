@@ -43,25 +43,29 @@ export class InscriptionModuleController {
         return this.inscriptionService.getInscriptionByDayAndTime(Jour, Creneau);
     }
 
+    @Get('volunteer/:id/jour/:jour/creneau/:creneau')
+    async getInscriptionByDayAndTimeAndVolunteer(@Param('id', ParseIntPipe) idVolunteer: number, 
+    @Param('jour') Jour: string, @Param('creneau') Creneau: string){
+        return this.inscriptionService.getInscriptionByDayAndTimeAndVolunteer(idVolunteer, Jour, Creneau);
+    }
+
     @Put('/update')
     async updateInscription(
     @Body('idBenevole', ParseIntPipe) idVolunteer: number,
     @Body('idPoste', ParseIntPipe) idPosition: number,
-    @Body('idZoneBenevole', ParseIntPipe) idZone: number,
     @Body('Jour') Jour: string,
     @Body('Creneau') Creneau: string,
-    @Body() updateInscriptionDto: UpdateInscriptionDto){
-        return this.inscriptionService.updateInscription(idVolunteer, idPosition, idZone, Jour, Creneau, updateInscriptionDto);
+    @Body('updateInscriptionDto') updateInscriptionDto: UpdateInscriptionDto){
+        return this.inscriptionService.updateInscription(idVolunteer, idPosition, Jour, Creneau, updateInscriptionDto);
     }
 
     @Delete('/delete')
     async deleteInscription(
     @Body('idBenevole', ParseIntPipe) idVolunteer: number,
     @Body('idPoste', ParseIntPipe) idPosition: number,
-    @Body('idZoneBenevole', ParseIntPipe) idZone: number,
     @Body('Jour') Jour: string,
     @Body('Creneau') Creneau: string){
-        return this.inscriptionService.deleteInscription(idVolunteer, idPosition, idZone, Jour, Creneau);
+        return this.inscriptionService.deleteInscription(idVolunteer, idPosition, Jour, Creneau);
     }
 
     @Get ('inscription/:id')
@@ -72,7 +76,7 @@ export class InscriptionModuleController {
     @Put ('inscriptionPresent/:id')
     async updateInscriptionById(@Param('id', ParseIntPipe) idInscription: number,
     @Body('Presence') presence: boolean){
-        return this.inscriptionService.updateInscriptionById(idInscription,presence);
+        return this.inscriptionService.updateInscriptionById(idInscription, presence);
     }
 
     @Get('getAllbenevoleInscritToday')

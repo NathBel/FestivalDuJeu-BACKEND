@@ -127,7 +127,7 @@ model Jeux {
 // Inscription model
 model Inscription {
   idBenevole     Int
-  idZoneBenevole Int     
+  idZoneBenevole Int?     
   idPoste        Int
   Creneau        String
   Jour           DateTime
@@ -136,7 +136,7 @@ model Inscription {
   ZoneBenevole   ZoneBenevole? @relation(fields: [idZoneBenevole], references: [idZoneBenevole])
   Poste          Poste       @relation(fields: [idPoste], references: [idPoste])
 
-  @@id([idBenevole, idPoste, idZoneBenevole, Creneau, Jour])
+  @@id([idBenevole, idPoste, Creneau, Jour])
 }
 
 // EtreReferent model

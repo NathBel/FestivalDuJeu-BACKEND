@@ -29,6 +29,16 @@ export class InscriptionModuleService {
                 idPoste: createInscriptionDto.idPoste
             }
         });
+
+        //Check if idZone is not null
+        if(createInscriptionDto.idZoneBenevole){
+            //Check if foreign key idZone exists
+            const zone = await this.prismaService.zoneBenevole.findUnique({
+                where: {
+                    idZoneBenevole: createInscriptionDto.idZoneBenevole
+                }
+            });
+        }
  
         //Check if inscription already exists
         const inscription = await this.prismaService.inscription.findFirst({
@@ -53,8 +63,16 @@ export class InscriptionModuleService {
             throw new NotFoundException(`Position with id ${createInscriptionDto.idPoste} not found`);
         }
 
+        // Créer une inscription en incluant les détails du bénévole
         return this.prismaService.inscription.create({
-            data: createInscriptionDto
+            data: {
+                idBenevole: createInscriptionDto.idBenevole,
+                idPoste: createInscriptionDto.idPoste,
+                Creneau: createInscriptionDto.Creneau,
+                Jour: createInscriptionDto.Jour,
+                isPresent: createInscriptionDto.isPresent,
+                idZoneBenevole: createInscriptionDto.idZoneBenevole
+            }
         });
     }
 
@@ -122,9 +140,6 @@ export class InscriptionModuleService {
     async getInscriptionByDayAndTime(Jour: string, Creneau: string) {
         try {
           const date = new Date(Jour);
-        console.log(date);
-        console.log(Jour);
-        console.log(new Date(Jour));
           if (isNaN(date.getTime())) {
             throw new Error('Date invalide');
           }
@@ -140,8 +155,30 @@ export class InscriptionModuleService {
           throw new Error('Date invalide');
         }
       }
+      
+      async getInscriptionByDayAndTimeAndVolunteer(idBenevole : number, Jour: string, Creneau: string) {
+        try {
+          const date = new Date(Jour);
+          if (isNaN(date.getTime())) {
+            throw new Error('Date invalide');
+          }
 
-    async updateInscription(idVolunteer: number, idPosition: number, idZone: number, Jour:string, Creneau:string, updateInscriptionDto: any){
+          
+      
+          return this.prismaService.inscription.findMany({
+            where: {
+              idBenevole: idBenevole,
+              Jour: date,
+              Creneau: Creneau,
+            },
+          });
+        } catch (error) {
+          console.error('Erreur lors de la conversion de la date :', error);
+          throw new Error('Date invalide');
+        }
+      }
+
+    async updateInscription(idVolunteer: number, idPosition: number, Jour:string, Creneau:string, updateInscriptionDto: any){
             
             //Check if foreign key idVolunteer exists
             const volunteer = await this.prismaService.benevole.findUnique({
@@ -156,13 +193,6 @@ export class InscriptionModuleService {
                     idPoste: idPosition
                 }
             });
-
-            //Check if foreign key idZone exists
-            const zone = await this.prismaService.zoneBenevole.findUnique({
-                where: {
-                    idZoneBenevole: idZone
-                }
-            });
     
             if(!volunteer){
                 throw new NotFoundException(`Volunteer with id ${idVolunteer} not found`);
@@ -171,17 +201,13 @@ export class InscriptionModuleService {
             if(!position){
                 throw new NotFoundException(`Position with id ${idPosition} not found`);
             }
-    
-            if (!zone) {
-                throw new NotFoundException(`Zone with id ${idZone} not found`);
-            }
+
 
             return this.prismaService.inscription.update({
                 where: {
-                    idBenevole_idPoste_idZoneBenevole_Creneau_Jour: {
+                    idBenevole_idPoste_Creneau_Jour: {
                         idBenevole: idVolunteer,
                         idPoste: idPosition,
-                        idZoneBenevole: idZone,
                         Creneau: Creneau,
                         Jour: Jour
                     }
@@ -190,13 +216,12 @@ export class InscriptionModuleService {
             });
         }
 
-    async deleteInscription(idVolunteer: number, idPosition: number, idZone: number, Jour:string, Creneau:string){
+    async deleteInscription(idVolunteer: number, idPosition: number, Jour:string, Creneau:string){
         return this.prismaService.inscription.delete({
             where: {
-                idBenevole_idPoste_idZoneBenevole_Creneau_Jour: {
+                idBenevole_idPoste_Creneau_Jour: {
                     idBenevole: idVolunteer,
                     idPoste: idPosition,
-                    idZoneBenevole: idZone,
                     Creneau: Creneau,
                     Jour: Jour
                 }
