@@ -306,28 +306,18 @@ export class AuthenticationModuleService {
             }
         });
     }
-    async getAuthorized(AuthorizedDto: AuthorizedDto) {
+    async getAuthorized(token:string ) {
         // Vérification de la connexion
-        const token = AuthorizedDto.Token;
         const decodedToken = jwtDecode(token);
-        const rolesAuthorized = AuthorizedDto.RoleAuthorized.split(',');
         const user = await this.prismaService.benevole.findUnique({
             where: {
                 Email: decodedToken['email']
             }
         });
-    
-        console.log(AuthorizedDto);
-        
-        
-        console.log(decodedToken);
-        console.log(rolesAuthorized);
-        // // Vérifie si le rôle extrait du token est autorisé
-        if (decodedToken['role'] && rolesAuthorized.includes(decodedToken['role'])) {
-            return true;
-        } else {
-            return false;
-        }    
+        console.log("decoded token : " + decodedToken['role']);
+        const tokenString = JSON.stringify(decodedToken['role']);
+
+        return tokenString;
 
         // if(!user){
         //     return false

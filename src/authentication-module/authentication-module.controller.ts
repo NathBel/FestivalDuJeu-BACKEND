@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, ForbiddenException, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, ForbiddenException, Get, Header, Headers, Param, ParseIntPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { AuthenticationModuleService } from './authentication-module.service';
@@ -71,15 +71,11 @@ export class AuthenticationModuleController {
     
     @UseGuards(AuthGuard('jwt'))
     @Get('/authorized')
-    getAuthorized(@Req() request: Request,@Body() AuthorizedDto: AuthorizedDto) {
-        console.log("test")
+    getAuthorized(@Req() request: Request, @Headers('authorization') authorizationHeader: string){
+        const token = authorizationHeader.split(' ')[1];
         const user = request.user;
-        if(!user || user["Role"] !=="Admin"){
-            throw new ForbiddenException(" you are not allowed to do thattttt")
-        }
-        else{
-        return this.authService.getAuthorized(AuthorizedDto);
-        }
+        return this.authService.getAuthorized(token);
+       
     }
     
     
