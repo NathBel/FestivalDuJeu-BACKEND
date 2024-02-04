@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
-import { CreateInscriptionDto } from './dto/CreateInscriptionDto';
-import { UpdateInscriptionDto } from './dto/UpdateInscriptionDto';
+import { CreateInscriptionDto } from 'src/inscription-module/dto/createInscriptionDto';
+import { UpdateInscriptionDto } from 'src/inscription-module/dto/updateInscriptionDto';
 import { InscriptionModuleService } from './inscription-module.service';
 
 @Controller('inscription-module')
@@ -66,6 +66,11 @@ export class InscriptionModuleController {
     @Body('Jour') Jour: string,
     @Body('Creneau') Creneau: string){
         return this.inscriptionService.deleteInscription(idVolunteer, idPosition, Jour, Creneau);
+    }
+
+    @Delete('/delete/:id')
+    async deleteInscriptionById(@Param('id', ParseIntPipe) idVolunteer: number){
+        return this.inscriptionService.deleteInscriptionByidBenevole(idVolunteer);
     }
 
     @Get ('inscription/:id')

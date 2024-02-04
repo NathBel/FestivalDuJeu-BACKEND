@@ -230,6 +230,14 @@ export class InscriptionModuleService {
 
     }
 
+    async deleteInscriptionByidBenevole(idVolunteer: number){
+        return this.prismaService.inscription.deleteMany({
+            where: {
+                idBenevole: idVolunteer
+            }
+        });
+    }
+
     async getTodayInscriptionById (idVolunteer: number){
         //get all occurenced of volunteer
         const todayStart = new Date();

@@ -1,9 +1,8 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards, ForbiddenException } from '@nestjs/common';
-import { EmployerModuleService } from './employer-module.service';
-import { CreateEmployerDto } from './dto/CreateEmployerDto';
-import { UpdateEmployerDto } from './dto/UpdateEmployerDto';
-import { Request } from 'express';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { CreateEmployerDto } from 'src/employer-module/dto/createEmployerDto';
+import { UpdateEmployerDto } from 'src/employer-module/dto/updateEmployerDto';
+import { EmployerModuleService } from './employer-module.service';
 
 @Controller('employer-module')
 export class EmployerModuleController {

@@ -1,9 +1,8 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards, ForbiddenException } from '@nestjs/common';
-import { ReferentModuleService } from './referent-module.service';
-import { CreateReferentDto } from './dto/CreateReferentDto';
-import { UpdateReferentDto } from './dto/UpdateReferentDto';
-import { Request } from 'express';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { CreateReferentDto } from 'src/referent-module/dto/createReferentDto';
+import { UpdateReferentDto } from 'src/referent-module/dto/updateReferentDto';
+import { ReferentModuleService } from './referent-module.service';
 
 @Controller('referent-module')
 export class ReferentModuleController {
