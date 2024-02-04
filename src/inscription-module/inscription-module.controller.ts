@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
-import { CreateInscriptionDto } from 'src/inscription-module/dto/CreateInscriptionDto';
-import { UpdateInscriptionDto } from 'src/inscription-module/dto/UpdateInscriptionDto';
+import { UpdateInscriptionDto } from './dto/UpdateInscriptionDto';
+import { CreateInscriptionDto } from './dto/createInscriptionDto';
 import { InscriptionModuleService } from './inscription-module.service';
 
 @Controller('inscription-module')
