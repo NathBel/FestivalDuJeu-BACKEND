@@ -50,7 +50,8 @@ export class VolunteerAreaModuleController {
 
         return this.volunteerAreaService.updateArea(idArea, updateAreaDto);
     }
-
+    
+    @UseGuards(AuthGuard("jwt"))
     @Delete('/:id')
     async deleteArea(@Req() request: Request, @Param('id', ParseIntPipe) idArea: number){
         //Check if user is allowed to delete an area (=user is admin)
